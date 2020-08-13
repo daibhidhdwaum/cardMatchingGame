@@ -28,14 +28,19 @@ game.displayImages = () => {
 
   const cards = document.querySelector(".cards");
 
-  const cardsToDisplay = doubledArray.map((image) => {
-    return (card = `
+  game.shuffleCards(doubledArray);
+
+  const cardsToDisplay = doubledArray
+    .map((image) => {
+      console.log(image);
+      return (card = `
     <div class="card" id=${image.id}>
         <img src=${image.src} alt=${image.name}/>
     </div>`);
-  });
+    })
+    .join("");
 
-  cards.innerHTML = game.shuffleCards(cardsToDisplay);
+  cards.innerHTML = cardsToDisplay;
 };
 
 // shuffle cards
@@ -56,24 +61,47 @@ game.selectCards = () => {
   document.addEventListener("click", (e) => {
     e.preventDefault;
 
-    const selectedCard = e.target.parentElement.id;
+    if (!e.target.parentElement.id) {
+      return;
+    } else {
+      let selectedCard = e.target.parentElement.id;
+      selectedCard = parseInt(selectedCard);
+      game.selectedCards.push(selectedCard);
+    }
 
-    game.selectedCards.push(selectedCard);
+    game.compareCards();
   });
 };
 
-// variable to store first card
-// variable to store second card
+// compare the id's of the selected cards
+game.compareCards = () => {
+  let cards = game.selectedCards;
 
-// if first card id is equal to second card id remove from game
+  if (cards.length === 1) {
+    console.log("Choose a second card");
+  }
+
+  if (cards.length === 2) {
+    // if first card id is equal to second card id remove from game
+    if (cards[0] === cards[1]) {
+      console.log("It's a match!");
+      console.log(cards[0]);
+    } else if (cards[0] !== cards[1]) {
+      console.log("Not this time!!");
+    }
+  }
+
+  // reset array
+  if (cards.length === 2) {
+    game.selectedCards = [];
+  }
+};
 
 // else turn back over
-// reset variables
 
 game.init = () => {
   game.displayImages(game.doubledArray);
   game.selectCards();
-  console.log(game.selectedCards);
 };
 
 game.init();
