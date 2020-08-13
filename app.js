@@ -13,8 +13,10 @@ game.images = [
   { id: 9, src: "./images/salah.jpg", name: "Salah" },
   { id: 10, src: "./images/vanDijk.jpg", name: "Van Dijk" },
   { id: 11, src: "./images/wijnaldum.jpg", name: "Wijnaldum" },
-  { id: 3, src: "./images/ox.jpg", name: "Oxlade-Chamberlain" },
+  { id: 12, src: "./images/ox.jpg", name: "Oxlade-Chamberlain" },
 ];
+
+game.selectedCards = [];
 
 // for each to display images on page
 game.displayImages = () => {
@@ -27,16 +29,38 @@ game.displayImages = () => {
   const cards = document.querySelector(".cards");
 
   const cardsToDisplay = doubledArray.map((image) => {
-    console.log(image);
     return (card = `
-    <div class="container">
+    <div class="card" id=${image.id}>
         <img src=${image.src} alt=${image.name}/>
     </div>`);
   });
-  cards.innerHTML = cardsToDisplay;
+
+  cards.innerHTML = game.shuffleCards(cardsToDisplay);
+};
+
+// shuffle cards
+game.shuffleCards = (arr) => {
+  let cards = arr;
+  var j, x, i;
+  for (i = cards.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = cards[i];
+    cards[i] = cards[j];
+    cards[j] = x;
+  }
+  return cards;
 };
 
 // onclick function to turn over card
+game.selectCards = () => {
+  document.addEventListener("click", (e) => {
+    e.preventDefault;
+
+    const selectedCard = e.target.parentElement.id;
+
+    game.selectedCards.push(selectedCard);
+  });
+};
 
 // variable to store first card
 // variable to store second card
@@ -48,7 +72,8 @@ game.displayImages = () => {
 
 game.init = () => {
   game.displayImages(game.doubledArray);
-  //   game.doubleArrayLength();
+  game.selectCards();
+  console.log(game.selectedCards);
 };
 
 game.init();

@@ -1,0 +1,19 @@
+html {
+  font-size: 63.5%;
+}
+
+img {
+  display: block;
+  width: 100%;
+}
+
+.cards {
+  border: 1px solid red;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.card {
+  border: 1px solid green;
+}
